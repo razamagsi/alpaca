@@ -26,6 +26,32 @@ include("connection.php");
     <link rel="stylesheet" href="css/dataTables.bootstrap5.min.css" />
     <link rel="stylesheet" href="css/style.css" />
     <title>ALPACA-Seller</title>
+    <script src="./js/jquery.js"></script>
+    <script>
+    $(document).ready(function()
+                     {
+        $("#fetchval").on('change',function()
+                         {
+            var keyword = $(this).val();
+            $.ajax(
+            {
+                url:'fetch-seller.php',
+                type:'POST',
+                data:'request='+keyword,
+                
+                beforeSend:function()
+                {
+                    $("#table-container").html('Working...');
+                    
+                },
+                success:function(data)
+                {
+                    $("#table-container").html(data);
+                },
+            });
+        });
+    });
+    </script>
 </head>
 
 <body>
@@ -125,15 +151,7 @@ include("connection.php");
             </nav>
         </div>
     </div>
-    <!-- Buyer -->
-    <?php
-       include("connection.php");
-       error_reporting();
-       $qurry = "SELECT * FROM user inner join seller_details on user.user_Id = seller_details.sd_Id";
-       $data = mysqli_query($conn, $qurry);
-       $total = mysqli_num_rows($data) >0;
-    ?>
-    
+    <!-- Seller -->
     <main class="mt-5 pt-3  card-body border-0">
         <div class="container-fluid ">
             <div class=" row ">
@@ -141,67 +159,45 @@ include("connection.php");
                     <h4>Seller</h4>
                 </div>
                 <br><br>
-                <select class="form-select " style="width: 20%;" aria-label="Default select example">
-                 <option selected>All Sellers</option>
-                 <option value="1" name ="active"> Active Sellers</option>
-                 <option value="2">Blocked Sellers</option>
-                 <option value="3">Pending Sellers</option>
+                
+                <select name="fetchby" id="fetchval" class="form-select " style="width: 20%;" aria-label="Default select example">
+                 <option disabled selected>All Sellers</option>
+                 <option value="Active"> Active Sellers</option>
+                 <option value="Blocked">Blocked Sellers</option>
+                 <option value="pending">Pending Sellers</option>
                </select>
-
-                <div class="row mt-5">
-
-                <?php
-
-    
-
-                        if($total){
-                        while($result = mysqli_fetch_assoc($data)){
-                            
-            
-                       
-                ?>  
-                            
-                                    <div class="row card col-md-3 mb-3" >
-                                      <img class="card-img-top" src="./imges/buyer1.jpg" alt="Card image cap">
-                                        <div class="card-body">
-                                            <h5 class="card-title"><?php echo $result["seller_name"]; ?></h5>
-                                            <p class="card-text">
-                    
-                                                <?php echo $result["email"]; ?> </p> 
-                                                <?php echo $result["status"]; ?> </p> 
-                                            <a href="seller-profile.php?id=<?php echo $result["sd_Id"];?>&bname=<?php echo $result["seller_name"]?>&bemail=<?php echo $result["email"];?>&bimage=<?php echo $result["image_path"];?>&bnumber=<?php echo $result["phone_no"];?>&baddress=<?php echo $result["address"];?>&bgender=<?php echo $result["gender"];?>&bcity=<?php echo $result["city"];?>&bcountry=<?php echo $result["country"];?>&bzip=<?php echo $result["zip"];?>&category=<?php echo $result["category"];?>&companyname=<?php echo $result["company_name"];?>&dob=<?php echo $result["dob"];?>&nameonid=<?php echo $result["name_on_id"];?>&storename=<?php echo $result["store_name"];?>&subcategory=<?php echo $result["sub_category"];?>&idcardno=<?php echo $result["id_card_no"];?>"class=" btn btn-primary">View Details</a>
-                                        </div>
-                                    </div>
-                        <?php
-                            } }
-                            
-                            
-                            else{
-                                echo" <tr>
-                                <th colspan='3'> No Records Found </th>
-                                </tr>";
-                            }
-                            ?>
+               <div id="table-container">
+                   <div class="row mt-5">
+               <?php
+                  include("connection.php");
+                  $query=" SELECT * FROM user inner join seller_details on user.user_Id = seller_details.sd_Id";
+                    $output=mysqli_query($conn,$query);
+                    while($fetch = mysqli_fetch_assoc($output))
+                    {
+                      ?>
+                        <div class="row card col-md-3 mb-3" >
+                       <img class="card-img-top" src="./imges/buyer1.jpg" alt="Card image cap">
+                        <div class="card-body">
+                             <h5 class="card-title"><?php echo $fetch["seller_name"]; ?></h5>
+                             <p class="card-text"><?php echo $fetch["email"]; ?>
+                             <br>
+                             <p class="card-text"><?php echo $fetch["status"]; ?>
+                         
+                            </p> 
+                             <a href="seller-profile.php?id=<?php echo $fetch["sd_Id"];?>&bname=<?php echo $fetch["seller_name"]?>&bemail=<?php echo $fetch["email"];?>&bimage=<?php echo $fetch["image_path"];?>&bnumber=<?php echo $fetch["phone_no"];?>&baddress=<?php echo $fetch["address"];?>&bgender=<?php echo $fetch["gender"];?>&bcity=<?php echo $fetch["city"];?>&bcountry=<?php echo $fetch["country"];?>&bzip=<?php echo $fetch["zip"];?>&category=<?php echo $fetch["category"];?>&companyname=<?php echo $fetch["company_name"];?>&dob=<?php echo $fetch["dob"];?>&nameonid=<?php echo $fetch["name_on_id"];?>&storename=<?php echo $fetch["store_name"];?>&subcategory=<?php echo $fetch["sub_category"];?>&idcardno=<?php echo $fetch["id_card_no"];?>"class=" btn btn-primary">View Details</a>
+                        </div>
+                   
+                    </div>
+                
+                    <?php   
+                    }
+                    ?>                         
+                     
                 </div>
-             
-            
-            
-            
-            
+               </div>
             </div>  
-
-           
         </div>
     </main>
-    <?php
-   //  if(array_key_exists('active',$_POST )){
-     //   option();
-    //}
-    //function option(){
-      //  echo "Active";
-    //}
-    
-    ?>
 
     <script src="./js/bootstrap.bundle.min.js "></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js "></script>

@@ -78,9 +78,9 @@ if(isset($_SESSION['email'])){
         }
     </style>
     <script>
-        function myFunction() {
-            alert("Sussesfully login");
-        }
+       // function myFunction() {
+         //   alert("Sussesfully login");
+        //}
     </script>
 </head>
 
@@ -101,7 +101,7 @@ if(isset($_SESSION['email'])){
                     <input type="password" class="form-control input" name="password" title="Please Insert Strong Password" required>
                 </div>
                 <br>
-                <button type="submit" class="btn btn-primary "  name="submit">Login</button><br> <br>
+                <button type="submit" class="btn btn-primary" onclick="myFunction()"  name="submit">Login</button><br> <br>
                 <a href="sign.php"> Sign in</a><br>
                 <a href="#"> Forgot Password?</a>
             </form>

@@ -20,9 +20,9 @@ include("connection.php");
 //$id = $_GET['id'];
 //$showqurry =" SELECT * FROM complaints  where id={'ids'}";
 //$showdata = mysqli_query($conn, $showqurry);
-//$qurry = "SELECT * FROM complaints";
-//$data = mysqli_query($conn, $qurry);
-//$total = mysqli_num_rows($data);
+$qurry = "SELECT * FROM complaints";
+$data = mysqli_query($conn, $qurry);
+$total = mysqli_num_rows($data);
 //?>
 <!DOCTYPE html>
 <html lang="en">
@@ -200,13 +200,13 @@ include("connection.php");
                 </div>
             </div>
 
-            <div class="row ">
-                <div class="col-md-12 mb-3">
+            <div class="row">
+                <div class="col-md-12 mb-3 col-12">
                     <div class="card ">
                         <div class="card-header ">
                             <span><i class="bi bi-table me-2 "></i></span> Complaints
                         </div>
-                        <div class="card-body ">
+                        <div class="card-body col-md-12 mb-3 col-12 ">
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -217,7 +217,7 @@ include("connection.php");
                                         
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="col-md-12 mb-3 col-12" >
                                <?php
                                     if($total != 0){
                                         while($result = mysqli_fetch_assoc($data)){
@@ -239,10 +239,7 @@ include("connection.php");
                                         <th colspan='3'> No Records Found </th>
                                         </tr>";
                                     }
-                                    ?>
-                                   
-                                     
-                                                            
+                                    ?>                            
                                  </tbody>
                             
                             </table>
@@ -252,11 +249,7 @@ include("connection.php");
             </div>
         </div>
     </main>
-    <div class="tab-content card-body border-0">
-        <div class="tab-pane" id="user">
-            <h2>User</h2>
-        </div>
-    </div>
+    
 
 
     <script src="./js/bootstrap.bundle.min.js "></script>

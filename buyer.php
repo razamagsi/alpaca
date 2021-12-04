@@ -26,6 +26,32 @@ $showqurry =" SELECT * FROM buyer_name  where id={'ids'}";
     <link rel="stylesheet" href="css/dataTables.bootstrap5.min.css" />
     <link rel="stylesheet" href="css/style.css" />
     <title>ALPACA-Buyer</title>
+    <script src="./js/jquery.js"></script>
+    <script>
+    $(document).ready(function()
+                     {
+        $("#fetchval").on('change',function()
+                         {
+            var keyword = $(this).val();
+            $.ajax(
+            {
+                url:'fetch-buyer.php',
+                type:'POST',
+                data:'request='+keyword,
+                
+                beforeSend:function()
+                {
+                    $("#table-container").html('Working...');
+                    
+                },
+                success:function(data)
+                {
+                    $("#table-container").html(data);
+                },
+            });
+        });
+    });
+    </script>
 </head>
 
 <body>
@@ -126,67 +152,51 @@ $showqurry =" SELECT * FROM buyer_name  where id={'ids'}";
         </div>
     </div>
     <!-- Buyer -->
-    <?php
-       include("connection.php");
-       error_reporting();
-       $qurry = "SELECT * FROM buyer_details";
-       $data = mysqli_query($conn, $qurry);
-       $total = mysqli_num_rows($data) >0;
-    ?>
     
     <main class="mt-5 pt-3  card-body border-0">
         <div class="container-fluid ">
             <div class=" row ">
                 <div class="col-md-12 ">
-                    <h4>Buyers</h4>
+                    <h4>Buyer</h4>
                 </div>
                 <br><br>
-                <select class="form-select " style="width: 20%;" aria-label="Default select example">
-                 <option selected>All Buyers</option>
-                 <option value="1">Active Buyers</option>
-                 <option value="2">Blocked Buyers</option>
-                 <option value="2">Pending Buyers</option>
+                
+                <select name="fetchby" id="fetchval" class="form-select " style="width: 20%;" aria-label="Default select example">
+                 <option disabled selected>All Buyers</option>
+                 <option value="Active"> Active Buyers</option>
+                 <option value="Blocked">Blocked Buyers</option>
+                 <option value="pending">Pending Buyers</option>
                </select>
-
-               
-                <div class="row mt-5">
-
-                <?php
-                        if($total){
-                        while($result = mysqli_fetch_assoc($data)){
-                ?>  
-           
-            
-                <div class="row card col-md-3 mb-3" >
-                  <img class="card-img-top" src="./imges/buyer1.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title"><?php echo $result["buyer_name"]; ?></h5>
-                        <p class="card-text">
-
-                            <i class="bi bi-envelope"></i>
-                            <?php echo $result["email"]; ?> </p>   
-                        <a href="buyer-profile.php?id=<?php echo $result["bd_Id"];?>&bname=<?php echo $result["buyer_name"]?>&bemail=<?php echo $result["email"];?>&bimage=<?php echo $result["image_path"];?>&bnumber=<?php echo $result["phone_no"];?>&baddress=<?php echo $result["address"];?>&bgender=<?php echo $result["gender"];?>&bcity=<?php echo $result["city"];?>&bcountry=<?php echo $result["country"];?>&bzip=<?php echo $result["zip"];?>" class="btn btn-primary">View Details</a>
+               <div id="table-container">
+                   <div class="row mt-5">
+               <?php
+                  include("connection.php");
+                  $query=" SELECT * FROM user inner join buyer_details on user.user_Id = buyer_details.bd_Id";
+                    $output=mysqli_query($conn,$query);
+                    while($fetch = mysqli_fetch_assoc($output))
+                    {
+                      ?>
+                        <div class="row card col-md-3 mb-3" >
+                       <img class="card-img-top" src="./imges/buyer1.jpg" alt="Card image cap">
+                        <div class="card-body">
+                             <h5 class="card-title"><?php echo $fetch["buyer_name"]; ?></h5>
+                             <p class="card-text"><?php echo $fetch["email"]; ?>
+                             <br>
+                             <p class="card-text"><?php echo $fetch["status"]; ?>
+                         
+                            </p> 
+                            <a href="buyer-profile.php?id=<?php echo $fetch["bd_Id"];?>&bname=<?php echo $fetch["buyer_name"]?>&bemail=<?php echo $fetch["email"];?>&bimage=<?php echo $fetch["image_path"];?>&bnumber=<?php echo $fetch["phone_no"];?>&baddress=<?php echo $fetch["address"];?>&bgender=<?php echo $fetch["gender"];?>&bcity=<?php echo $fetch["city"];?>&bcountry=<?php echo $fetch["country"];?>&bzip=<?php echo $fetch["zip"];?>" class="btn btn-primary">View Details</a>
+                        </div>
+                   
                     </div>
+                
+                    <?php   
+                    }
+                    ?>                         
+                     
                 </div>
-                            <?php
-                                }    
-                            }
-                            
-                            else{
-                                echo" <tr>
-                                <th colspan='3'> No Records Found </th>
-                                </tr>";
-                            }
-                            ?>
-                </div>
-             
-            
-            
-            
-            
+               </div>
             </div>  
-
-           
         </div>
     </main>
 

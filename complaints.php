@@ -173,7 +173,7 @@ else{
                                         <td><?php echo "$cdes" ?></td>
                                         </tr>
                                      
-                                      <td><a href="complaints.php"><button class="btn btn-primary" title="Check Complaints">Check</button></a></td>
+                                      <td><a href="complaints.php"><button class="btn btn-primary" title="Check Complaints">Delete</button></a></td>
                                         
 
                             

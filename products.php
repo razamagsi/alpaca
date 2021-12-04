@@ -170,7 +170,7 @@ $total = mysqli_num_rows($data);
                             <div class="card mb-3" style="max-width: 100%;">
                               <div class="row g-0">
                                 <div class="col-md-4">
-                                    <?php echo $result["pro-image"]; ?>
+                                    <?php //echo $result["pro-image"]; ?>
                                   <img src="./imges/download.jfif" class="img-fluid rounded-start" alt="...">
                                 </div>
                                 
@@ -181,11 +181,70 @@ $total = mysqli_num_rows($data);
                                     <p class="card-text" name ="pro-description" ><?php echo $result["description"];?></p>
                                     <p class="card-text" name ="store-name"  ><small class="text-muted"><?php echo $result["what_is_in_box"];?></small></p><br>
                                     <p class="card-text text-end price" name ="price" ><medium class=" "><?php echo $result["price"];?></small></p>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
+                                   <?php
+
+
+                                        if($result['rating'] == 0 ){    
+                                    
+                                       echo" Opps! 0 Rating";
+                                    
+                                        }
+                                    
+                                        if($result['rating'] == 1 ){    
+                                    ?>
+                                       <span class="fa fa-star checked "></span>  
+                                       <span class="fa fa-star checked "></span>  
+                                    <?php
+                                        }
+                                    
+                                        if($result['rating'] == 2  ){    
+                                    ?>
+                                       <span class="fa fa-star checked "></span>  
+                                       <span class="fa fa-star checked "></span>  
+                                    
+                                    <?php
+                                        }
+                                    
+                                        if($result['rating'] == 3  ){    
+                                    ?>
+                                       <span class="fa fa-star checked "></span>  
+                                       <span class="fa fa-star checked "></span>  
+                                       <span class="fa fa-star checked "></span>  
+                                    
+                                    <?php
+                                        }
+                                    
+                                        if($result['rating'] == 4 ){    
+                                    ?>
+                                       <span class="fa fa-star checked "></span>  
+                                       <span class="fa fa-star checked "></span>  
+                                       <span class="fa fa-star checked "></span>  
+                                       <span class="fa fa-star checked "></span>  
+                                    
+                                    <?php
+                                        }
+                                    
+                                        if($result['rating'] == 5  ){    
+                                    ?>
+                                       <span class="fa fa-star checked "></span>  
+                                       <span class="fa fa-star checked "></span>  
+                                       <span class="fa fa-star checked "></span>  
+                                       <span class="fa fa-star checked "></span>  
+                                       <span class="fa fa-star checked "></span>  
+                                    
+                                    <?php
+                                        }
+                                    
+                                        elseif($result['rating'] > 5  ){   
+                                    
+                                       echo "Opps! Rating Out of 5 Numbers"; 
+                                       
+                                    
+                                        }
+                                        
+                                    ?>
+                       
+                       
                                 </div>                                      
                             </div>    
                         </div>   
@@ -193,7 +252,7 @@ $total = mysqli_num_rows($data);
                     </div>
                 </div>
                                 <?php
-                            }    
+                        }  
                         }
                          
                         else{
